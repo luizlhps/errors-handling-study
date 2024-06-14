@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import { PostExternalService } from './shared/external/todo/services/PostExternal.service';
 import { createPostDto } from './shared/external/todo/dto/createPost.dto';
 import { TodoError } from './shared/errors/errorHandler';
+import { CustomError } from './shared/errors/ErrorBase';
 
 const app = express();
 app.use(express.json());
@@ -21,7 +22,7 @@ app.get('/', async (req: Request, res: Response) => {
   } catch (error) {
     console.error('Erro na rota:', error);
     if (error instanceof TodoError) {
-      res.status(500).send(new TodoError(error));
+      res.status(500).send(new CustomError(error));
     } else {
       res.status(500).send('Erro desconhecido ao criar post');
     }
